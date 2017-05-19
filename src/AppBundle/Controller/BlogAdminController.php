@@ -18,36 +18,36 @@ use AppBundle\Service\BlogService;
 class BlogAdminController extends BaseController
 {
 
-    public function doctrine() 
+    public function doctrine()
     {
-       return $this->getDoctrine();
+        return $this->getDoctrine();
     }
 
-    private function _createContentForm($title, $description, $label) 
+    private function _createContentForm($title, $description, $label)
     {
-       $formData = new BlogEntryForm();
-       $formData->setTitle($title)
+        $formData = new BlogEntryForm();
+        $formData->setTitle($title)
             ->setDescription($description);
 
-       $form = $this->createFormBuilder($formData)
+        $form = $this->createFormBuilder($formData)
             ->add('title', TextType::class)
             ->add('description', TextareaType::class)
-	    ->add('save', SubmitType::class, array('label' => $label))
+	          ->add('save', SubmitType::class, array('label' => $label))
             ->getForm();
-       return $form;
+        return $form;
     }
 
-    private function _createContentFormFor($id) 
+    private function _createContentFormFor($id)
     {
-       $blogRecord = BlogService::inst($this)->find($id);
+        $blogRecord = BlogService::inst($this)->find($id);
 
-       $form = $this->_createContentForm($blogRecord->getTitle(), $blogRecord->getDescription(), "Edit");
-       return $form;
+        $form = $this->_createContentForm($blogRecord->getTitle(), $blogRecord->getDescription(), "Edit");
+        return $form;
     }
 
     private function _checkPermission($blogRecord) {
-       if ( ! LoginService::inst()->isUser($blogRecord->getUser()->getName()))
-          throw $this->createAccessDeniedException();
+        if ( ! LoginService::inst()->isUser($blogRecord->getUser()->getName()))
+            throw $this->createAccessDeniedException();
     }
 
     /**
@@ -55,23 +55,23 @@ class BlogAdminController extends BaseController
      */
     public function addAction(Request $request)
     {
-       $form = $this->_createContentForm("", "", "Add");
+        $form = $this->_createContentForm("", "", "Add");
 
-       $form->handleRequest($request);
-       if ($form->isSubmitted() && $form->isValid()) 
-       {
-           $formData = $form->getData();
-	   	   
-           $user = LoginService::inst($this)->getLoggedUser();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $formData = $form->getData();
 
-	   BlogService::inst($this)->add($formData->getTitle(), $formData->getDescription(), $user);
+            $user = LoginService::inst($this)->getLoggedUser();
 
-           return $this->redirect('/');
-       }
+	          BlogService::inst($this)->add($formData->getTitle(), $formData->getDescription(), $user);
 
-       return $this->render('blog-admin/add.html.twig', array(
+            return $this->redirect('/');
+        }
+
+        return $this->render('blog-admin/add.html.twig', array(
             'form' => $form->createView(),
-       ));
+        ));
     }
 
     /**
@@ -79,26 +79,26 @@ class BlogAdminController extends BaseController
      */
     public function editAction(Request $request, $id)
     {
-       $blogRecord = BlogService::inst($this)->find($id);
+        $blogRecord = BlogService::inst($this)->find($id);
 
-       $this->_checkPermission($blogRecord);
+        $this->_checkPermission($blogRecord);
 
-       $form = $this->_createContentFormFor($id);
+        $form = $this->_createContentFormFor($id);
 
-       $form->handleRequest($request);
-       if ($form->isSubmitted() && $form->isValid()) 
-       {
-           $formData = $form->getData();
-	   
-           $user = LoginService::inst($this)->getLoggedUser();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $formData = $form->getData();
 
-           BlogService::inst($this)->edit($id, $formData->getTitle(), $formData->getDescription());	  
+            $user = LoginService::inst($this)->getLoggedUser();
 
-           return $this->redirect('/');
-       }
+            BlogService::inst($this)->edit($id, $formData->getTitle(), $formData->getDescription());
 
-       return $this->render('blog-admin/edit.html.twig', array(
+            return $this->redirect('/');
+        }
+
+        return $this->render('blog-admin/edit.html.twig', array(
             'form' => $form->createView(),
-       ));
+        ));
     }
 }

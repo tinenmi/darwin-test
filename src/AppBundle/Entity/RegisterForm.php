@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Context\ExecutionContext;
- 
+
 /**
  * @Assert\Callback("checkCustomValidation")
  * @ORM\Entity
@@ -30,7 +30,7 @@ class RegisterForm
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=100)
-     */    
+     */
     protected $name;
 
     /**
@@ -51,7 +51,8 @@ class RegisterForm
     public function setName($name)
     {
         $this->name = $name;
-	return $this;
+
+	      return $this;
     }
 
     public function getPassword()
@@ -62,7 +63,8 @@ class RegisterForm
     public function setPassword($password)
     {
         $this->password = $password;
-	return $this;
+
+        return $this;
     }
 
     public function getPasswordRetry()
@@ -73,15 +75,16 @@ class RegisterForm
     public function setPasswordRetry($password_retry)
     {
         $this->password_retry = $password_retry;
-	return $this;
+
+        return $this;
     }
 
     public function checkCustomValidation(ExecutionContext $context)
     {
-	if ($this->password != $this->password_retry) {
- 	    $context->buildViolation('Passwords Must be Equals!')
+        if ($this->password != $this->password_retry) {
+ 	          $context->buildViolation('Passwords Must be Equals!')
                 ->atPath('name')
-                ->addViolation();
-	}
+               ->addViolation();
+        }
     }
 }

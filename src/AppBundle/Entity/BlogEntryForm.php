@@ -15,7 +15,7 @@ class BlogEntryForm
     public function setTitle($title)
     {
         $this->title = $title;
-	return $this;
+        return $this;
     }
 
     public function getDescription()
@@ -26,6 +26,6 @@ class BlogEntryForm
     public function setDescription($description)
     {
         $this->description = $description;
-	return $this;
+        return $this;
     }
 }

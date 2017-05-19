@@ -15,7 +15,8 @@ class LoginForm
     public function setName($name)
     {
         $this->name = $name;
-	return $this;
+
+        return $this;
     }
 
     public function getPassword()
@@ -26,6 +27,7 @@ class LoginForm
     public function setPassword($password)
     {
         $this->password = $password;
-	return $this;
+
+        return $this;
     }
 }

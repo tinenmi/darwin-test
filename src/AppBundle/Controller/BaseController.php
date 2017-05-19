@@ -8,9 +8,8 @@ class BaseController extends Controller
 {
 
 
-public function doctrine() 
+public function doctrine()
     {
-       return $this->getDoctrine();
+        return $this->getDoctrine();
     }
-
 }

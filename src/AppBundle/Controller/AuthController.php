@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -15,63 +14,58 @@ use AppBundle\Entity\LoginForm;
 use AppBundle\Entity\RegisterForm;
 use AppBundle\Service\LoginService;
 
-
 class AuthController extends BaseController
 {
-
-
-
     function _buildRegisterForm()
     {
-       $registerData = new RegisterForm();
-       $registerData->setName('')
+        $registerData = new RegisterForm();
+        $registerData->setName('')
             ->setPassword('')
             ->setPasswordRetry('');
 
-       $form = $this->createFormBuilder($registerData)
+        $form = $this->createFormBuilder($registerData)
             ->add('name', TextType::class)
             ->add('password', PasswordType::class)
-	    ->add('password_retry', PasswordType::class)
+	          ->add('password_retry', PasswordType::class)
             ->add('save', SubmitType::class, array('label' => 'Register'))
             ->getForm();
-    
-       return $form;
+        return $form;
     }
 
     function _buildLoginForm()
     {
-       $loginData = new LoginForm();
-       $loginData->setName('')
+        $loginData = new LoginForm();
+        $loginData->setName('')
             ->setPassword('');
 
-       $form = $this->createFormBuilder($loginData)
+        $form = $this->createFormBuilder($loginData)
             ->add('name', TextType::class)
             ->add('password', PasswordType::class)
             ->add('save', SubmitType::class, array('label' => 'Login'))
             ->getForm();
-      return $form;
-    }    
+        return $form;
+    }
 
     /**
      * @Route("/register")
      */
     public function registerAction(Request $request)
     {
-       $form = $this->_buildRegisterForm();
+        $form = $this->_buildRegisterForm();
 
-       $form->handleRequest($request);
-       if ($form->isSubmitted() && $form->isValid()) {
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
 
-           $registerData = $form->getData();
-	             
-	   LoginService::inst($this)->createUser($registerData->getName(), $registerData->getPassword() );
-	   
-           return $this->redirect('\login');
-       }
+            $registerData = $form->getData();
 
-       return $this->render('auth/register.html.twig', array(
+	          LoginService::inst($this)->createUser($registerData->getName(), $registerData->getPassword() );
+
+            return $this->redirect('\login');
+        }
+
+        return $this->render('auth/register.html.twig', array(
             'form' => $form->createView(),
-       ));
+        ));
     }
 
     /**
@@ -80,17 +74,19 @@ class AuthController extends BaseController
     public function loginAction(Request $request)
     {
 
-    	$form = $this->_buildLoginForm();
+        $form = $this->_buildLoginForm();
 
-       $form->handleRequest($request);
-       if ($form->isSubmitted() && $form->isValid()) {
-           $loginData = $form->getData();
-	   $loginResult = LoginService::inst($this)->tryLogin($loginData->getName(), $loginData->getPassword());
-           if ($loginResult === true)
-               return $this->redirect("/");
-           else {
-               echo $loginResult;
-           }           
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $loginData = $form->getData();
+            $loginResult = LoginService::inst($this)->tryLogin($loginData->getName(), $loginData->getPassword());
+            if ($loginResult === true)
+                return $this->redirect("/");
+            else
+            {
+                echo $loginResult;
+            }
        }
 
        return $this->render('auth/login.html.twig', array(
@@ -103,7 +99,7 @@ class AuthController extends BaseController
      */
     public function logoutAction()
     {
-       LoginService::inst()->logout();
-       return $this->redirect("/");
+        LoginService::inst()->logout();
+        return $this->redirect("/");
     }
 }
