@@ -1,0 +1,5 @@
+<h2>{{item.userName}}: {{ item.title }}</h2>
+{% if item.allowEdit %}
+   <a href="/blog-admin/edit/{{ item.id }}"> Edit </a>
+{% endif %}
+<p>{{ item.description }}</p>

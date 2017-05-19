@@ -1,0 +1,7 @@
+{% if isLogged == false %}
+<a href="/login"> Login </a> &nbsp;&nbsp; <a href="/register"> Register </a> 
+{% else %}
+Hello, {{ userName }} (<a href="/logout">logout</a>)
+<a href="/blog-admin/add"> Add </a>  &nbsp;&nbsp; 
+{% endif %}
+

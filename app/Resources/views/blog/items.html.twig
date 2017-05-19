@@ -1,0 +1,15 @@
+{% include 'blog/_userpanel.html.twig' with {'isLogged': isLogged, 'userName': userName} only %}
+
+<? echo "test"?>
+<h1>Our Blog</h1>
+{% for item in items %}
+    {% include 'blog/_item.html.twig' with {'item': item} only %}        
+{% else %}
+    <p>No records.</p>
+{% endfor %}
+
+
+{% include 'blog/_pagination.html.twig' with {'pageCount': pageCount} only %}        
+
+
+

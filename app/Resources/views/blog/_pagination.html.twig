@@ -1,0 +1,7 @@
+<ul>
+    {% if pageCount > 0 %}
+        {% for i in 1..pageCount %}
+	<li><a href="/pages/{{i}}">{{ i }}</a>
+        {% endfor %}
+    {% endif %}
+</ul>
